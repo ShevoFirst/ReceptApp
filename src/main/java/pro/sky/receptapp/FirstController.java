@@ -12,7 +12,7 @@ public class FirstController {
         return "Приложение запущенно";
     }
     @GetMapping("/info")
-    public String projectInfo(){//
+    public String projectInfo(){//nububu
         return "Шевченко Дмитрий, Budget App, 27.02.2023, проект для сайта рецептов";
     }
 }
