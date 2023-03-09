@@ -16,4 +16,18 @@ public class ReceptService {
     public Recept getRecept(Long id){
         return receptMap.get(id);
     };
+    public Recept editRecept(long id , Recept recept){
+        if (recept == null) {
+            return null;
+        }
+        receptMap.put(id,recept);
+        return recept;
+    }
+    public boolean deleteRecept(long id){
+        if (receptMap.containsKey(id)){
+            receptMap.remove(id);
+            return true;
+        }
+        return false;
+    }
 }
