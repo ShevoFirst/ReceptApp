@@ -48,7 +48,7 @@ public class IngridientService {
         return false;
     }
     private void saveToFile(){
-        filesService.saveToJsonFile(ingridientMap,"ingridient");
+        filesService.saveToJsonFile(ingridientMap,"ingridient.json");
     }
     private void readFromFile(){
         String json = filesService.readFromFile("ingridient.json");

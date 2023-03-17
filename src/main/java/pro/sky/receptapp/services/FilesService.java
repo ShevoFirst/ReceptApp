@@ -15,7 +15,7 @@ public class FilesService {
     private String dataFilePath;
 
     public void saveToJsonFile(Object object, String fileName) {
-        Path path = Path.of(dataFilePath, fileName + ".json");
+        Path path = Path.of(dataFilePath, fileName);
         try {
             String json = new ObjectMapper().writeValueAsString(object);
             Files.createDirectories(path.getParent());

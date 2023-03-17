@@ -46,7 +46,7 @@ public class ReceptService {
         return false;
     }
     private void saveToFile(){
-        filesService.saveToJsonFile(receptMap,"recept");
+        filesService.saveToJsonFile(receptMap,"recept.json");
     }
     private void readFromFile(){
       String json = filesService.readFromFile("recept.json");
