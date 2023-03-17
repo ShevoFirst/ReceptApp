@@ -40,6 +40,7 @@ public class ReceptService {
     public boolean deleteRecept(long id){
         if (receptMap.containsKey(id)){
             receptMap.remove(id);
+            saveToFile();
             return true;
         }
         return false;

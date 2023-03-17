@@ -44,6 +44,7 @@ public class IngridientService {
             ingridientMap.remove(id);
             return true;
         }
+        saveToFile();
         return false;
     }
     private void saveToFile(){
@@ -55,7 +56,7 @@ public class IngridientService {
         try {
             ingridientMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Ingridient>>() {
             });
-            System.out.println(ingridientMap);
+            System.out.println(ingridientMap); 
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
