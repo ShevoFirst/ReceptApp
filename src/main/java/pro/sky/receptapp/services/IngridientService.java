@@ -62,5 +62,6 @@ public class IngridientService {
     @PostConstruct
     private void init() {
         readFromFile();
+        id = Long.valueOf(ingridientMap.size());
     }
 }

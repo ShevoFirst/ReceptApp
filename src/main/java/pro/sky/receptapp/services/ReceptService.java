@@ -31,7 +31,7 @@ public class ReceptService {
     };
     public Recept getRecept(Long id){
         System.out.println(receptMap);
-        System.out.println(receptMap.get(0L));
+        System.out.println(receptMap.size());
         return receptMap.get(id);
     };
     public Recept editRecept(long id , Recept recept){
@@ -62,5 +62,6 @@ public class ReceptService {
     @PostConstruct
     private void init() {
         readFromFile();
+        id = Long.valueOf(receptMap.size());
     }
 }
