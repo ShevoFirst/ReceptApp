@@ -55,7 +55,7 @@ public class ReceptService {
         filesService.saveToJsonFile(receptMap,"recept.json");
     }
     private void readFromFile(){
-        String json = filesService.readFromFile("ingridient.json");
+        String json = filesService.readFromFile("recept.json");
         try {
             receptMap = (HashMap<Long, Recept>) new ObjectMapper().readValue(json, new TypeReference<Map<Long, Recept>>() {
             });
