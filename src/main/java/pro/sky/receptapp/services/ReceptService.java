@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Service;
+import pro.sky.receptapp.model.Ingridient;
 import pro.sky.receptapp.model.Recept;
 
 import javax.annotation.PostConstruct;
@@ -54,10 +55,13 @@ public class ReceptService {
         filesService.saveToJsonFile(receptMap,"recept.json");
     }
     private void readFromFile(){
-        String json = filesService.readFromFile("recept.json");
-        JacksonJsonParser jsonParser = new JacksonJsonParser();
-        HashMap map = (HashMap) jsonParser.parseMap(json);
-        receptMap = Objects.requireNonNull(map);
+        String json = filesService.readFromFile("ingridient.json");
+        try {
+            receptMap = (HashMap<Long, Recept>) new ObjectMapper().readValue(json, new TypeReference<Map<Long, Recept>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
     @PostConstruct
     private void init() {

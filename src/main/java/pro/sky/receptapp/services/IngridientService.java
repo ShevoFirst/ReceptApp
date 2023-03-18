@@ -11,6 +11,7 @@ import pro.sky.receptapp.model.Recept;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -55,9 +56,12 @@ public class IngridientService {
     }
     private void readFromFile(){
         String json = filesService.readFromFile("ingridient.json");
-        JacksonJsonParser jsonParser = new JacksonJsonParser();
-        HashMap map = (HashMap) jsonParser.parseMap(json);
-        ingridientMap = Objects.requireNonNull(map);
+        try {
+            ingridientMap = (HashMap<Long, Ingridient>) new ObjectMapper().readValue(json, new TypeReference<Map<Long, Ingridient>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
     @PostConstruct
     private void init() {
