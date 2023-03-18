@@ -61,7 +61,11 @@ public class ReceptService {
     }
     @PostConstruct
     private void init() {
-        readFromFile();
-        id = Long.valueOf(receptMap.size());
+        try {
+            readFromFile();
+        }catch (Exception e){
+
+        }
+        id = (long) receptMap.size();
     }
 }
