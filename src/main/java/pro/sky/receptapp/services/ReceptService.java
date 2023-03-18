@@ -3,16 +3,18 @@ package pro.sky.receptapp.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Service;
 import pro.sky.receptapp.model.Recept;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class ReceptService {
-    private Map<Long, Recept> receptMap = new HashMap<>();
+    private HashMap<Long, Recept> receptMap = new HashMap<>();
     private Long id = 0L;
 
     private final FilesService filesService;
@@ -24,9 +26,12 @@ public class ReceptService {
     public void addRecept(Recept recept){
         receptMap.put(id,recept);
         id++;
+        System.out.println(receptMap);
         saveToFile();
     };
     public Recept getRecept(Long id){
+        System.out.println(receptMap);
+        System.out.println(receptMap.get(0L));
         return receptMap.get(id);
     };
     public Recept editRecept(long id , Recept recept){
@@ -49,19 +54,13 @@ public class ReceptService {
         filesService.saveToJsonFile(receptMap,"recept.json");
     }
     private void readFromFile(){
-      String json = filesService.readFromFile("recept.json");
-        try {
-            receptMap = new ObjectMapper().readValue(json, new TypeReference<Map<Long, Recept>>() {});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String json = filesService.readFromFile("recept.json");
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        HashMap map = (HashMap) jsonParser.parseMap(json);
+        receptMap = Objects.requireNonNull(map);
     }
     @PostConstruct
     private void init() {
-        try {
-            readFromFile();
-        }catch (Exception e){
-
-        }
+        readFromFile();
     }
 }

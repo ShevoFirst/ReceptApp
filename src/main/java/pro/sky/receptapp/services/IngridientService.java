@@ -1,19 +1,21 @@
 package pro.sky.receptapp.services;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Service;
 import pro.sky.receptapp.model.Ingridient;
 import pro.sky.receptapp.model.Recept;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class IngridientService {
-    private HashMap<Long,Ingridient> ingridientMap = new HashMap<>();
+    private HashMap<Long, Ingridient> ingridientMap = new HashMap<>();
     private final FilesService filesService;
     private Long id = 0L;
 
@@ -27,7 +29,8 @@ public class IngridientService {
         saveToFile();
     }
     public Ingridient getIngridient(Long id){
-        System.out.println(ingridientMap.get(0));
+        System.out.println(ingridientMap);
+        System.out.println(ingridientMap.isEmpty());
         return ingridientMap.get(id);
     }
 
@@ -52,21 +55,12 @@ public class IngridientService {
     }
     private void readFromFile(){
         String json = filesService.readFromFile("ingridient.json");
-        System.out.println(json);
-        try {
-            ingridientMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Ingridient>>() {
-            });
-            System.out.println(ingridientMap); 
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        HashMap map = (HashMap) jsonParser.parseMap(json);
+        ingridientMap = Objects.requireNonNull(map);
     }
     @PostConstruct
     private void init() {
-        try {
-            readFromFile();
-        }catch (Exception e){
-
-        }
+        readFromFile();
     }
 }
