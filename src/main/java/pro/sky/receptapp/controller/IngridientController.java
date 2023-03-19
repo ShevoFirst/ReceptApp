@@ -5,20 +5,23 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.receptapp.model.Ingridient;
-import pro.sky.receptapp.model.Recept;
-import services.IngridientService;
+import pro.sky.receptapp.services.IngridientService;
 
 @RestController
 @RequestMapping("/ingridient")
 @Tag(name = "Ингридиенты", description = "CRUD операции и другие эндпоинты с транзакциями")
 public class IngridientController {
-    private IngridientService ingridientServise;
+    private final IngridientService ingridientServise;
+
+    public IngridientController(IngridientService ingredientService) {
+        this.ingridientServise = ingredientService;
+    }
 
     @PostMapping
     @Operation(
             summary = "создание ингридиента"
     )
-    public ResponseEntity createIngridient(@PathVariable Ingridient ingridient){
+    public ResponseEntity createIngridient(@RequestBody Ingridient ingridient){
         ingridientServise.addIngridient(ingridient);
         return ResponseEntity.ok(ingridient);
     }

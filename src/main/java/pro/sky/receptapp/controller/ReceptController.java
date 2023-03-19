@@ -5,14 +5,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.receptapp.model.Recept;
-import services.ReceptService;
+import pro.sky.receptapp.services.ReceptService;
 
 @RestController
 @RequestMapping("/recept")
 @Tag(name = "Рецепты", description = "CRUD операции и другие эндпоинты с рецептами")
-
 public class ReceptController {
-    private ReceptService receptService;
+    private final ReceptService receptService;
+
+    public ReceptController(ReceptService receptService) {
+        this.receptService = receptService;
+    }
 
 
     @PostMapping
