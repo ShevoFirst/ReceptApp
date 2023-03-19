@@ -1,18 +1,12 @@
 package pro.sky.receptapp.services;
-
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Service;
 import pro.sky.receptapp.model.Ingridient;
-import pro.sky.receptapp.model.Recept;
-
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class IngridientService {
@@ -35,21 +29,18 @@ public class IngridientService {
         return ingridientMap.get(id);
     }
 
-    public Ingridient editIngridient(long id , Ingridient ingridient){
+    public void editIngridient(long id , Ingridient ingridient){
         if (ingridient == null) {
-            return null;
+            return;
         }
         ingridientMap.put(id,ingridient);
         saveToFile();
-        return ingridient;
     }
-    public boolean deleteIngridient(long id) {
+    public void deleteIngridient(long id) {
         if (ingridientMap.containsKey(id)) {
             ingridientMap.remove(id);
-            return true;
+            saveToFile();
         }
-        saveToFile();
-        return false;
     }
     private void saveToFile(){
         filesService.saveToJsonFile(ingridientMap,"ingridient.json");
@@ -68,7 +59,7 @@ public class IngridientService {
         try {
             readFromFile();
         }catch (Exception e){
-
+            e.printStackTrace();
         }
         id = (long) ingridientMap.size();
     }
