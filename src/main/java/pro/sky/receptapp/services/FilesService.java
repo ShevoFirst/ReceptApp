@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +29,9 @@ public class FilesService {
             e.printStackTrace();
         }
     }
+    public File getDataFile(String fileName){
+        return new File(dataFilePath+"/"+fileName);
+    }
     public String readFromFile(String fileName) {
         try {
             return Files.readString(Path.of(dataFilePath, fileName));
@@ -35,7 +39,7 @@ public class FilesService {
             throw new RuntimeException(e);
         }
     }
-    private boolean cleanFile(){
+    public boolean cleanFile(){
         try {
             Files.deleteIfExists(Path.of(dataFilePath));
             Files.createFile(Path.of(dataFilePath));
