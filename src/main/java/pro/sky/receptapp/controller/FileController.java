@@ -64,11 +64,12 @@ public class FileController {
             summary = "получение TXT файла рецептов"
     )
     public ResponseEntity<InputStreamResource> downloadReceptTXTFile() throws FileNotFoundException {
-        File file = filesService.getDataFile("recept.json");
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        List<Recept> recipes = recipeService.getAllRecipe();
+        String text = filesService.convertToTextFormat(recipes);
+        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(text.getBytes()));
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(file.length())
+                .contentLength(text.getBytes().length)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Recipes.txt\"")
                 .body(resource);
     }
