@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import pro.sky.receptapp.model.Recept;
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,7 +20,11 @@ public class ReceptService {
     public ReceptService(FilesService filesService) {
         this.filesService = filesService;
     }
-
+    public List<Recept> getAllRecipe() {
+        List<Recept> allRecipe = new ArrayList<>();
+        allRecipe.addAll(receptMap.values());
+        return allRecipe;
+    }
     public void addRecept(Recept recept){
         receptMap.put(id,recept);
         id++;
